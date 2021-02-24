@@ -1,6 +1,23 @@
+### Go ###
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
 /.vscode
 /bin
 /dist
 *.out
 youtube-downloader
 *.mp4
+
+### Go Patch ###
+/vendor/
+/Godeps/
