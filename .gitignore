@@ -18,6 +18,9 @@
 youtube-downloader
 *.mp4
 
+# Debug
+/__debug_bin
+
 ### Go Patch ###
 /vendor/
 /Godeps/

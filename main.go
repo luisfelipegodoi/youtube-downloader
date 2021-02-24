@@ -5,6 +5,7 @@ import (
 	"io"
 	"os"
 	"os/exec"
+	"path/filepath"
 )
 
 func init() {
@@ -13,12 +14,14 @@ func init() {
 
 func main() {
 
-	output, err := exec.Command("./youtubedr", "download", "Sv6dMFF_yts").Output()
+	fmt.Print("Digite o codigo do video: ")
+	var input string
+	fmt.Scanln(&input)
+
+	output, err := exec.Command("./youtubedr", "download", input).Output()
 	if err != nil {
 		fmt.Println(err.Error())
 	}
-
-	// Move file to videos folder
 
 	// Printing Process
 	fmt.Println(string(output))
@@ -26,6 +29,7 @@ func main() {
 	defer fmt.Println("Process Finalized!!!")
 }
 
+// TODO: implementation move file to specific folder
 func MoveFile(sourcePath, destinationPath string) error {
 
 	inputFile, err := os.Open(sourcePath)
@@ -53,4 +57,27 @@ func MoveFile(sourcePath, destinationPath string) error {
 	}
 
 	return nil
+}
+
+// TODO: implementation recursively find files in folder
+func WalkMatch(root, pattern string) ([]string, error) {
+	var matches []string
+	err := filepath.Walk(root, func(path string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		if info.IsDir() {
+			return nil
+		}
+		if matched, err := filepath.Match(pattern, filepath.Base(path)); err != nil {
+			return err
+		} else if matched {
+			matches = append(matches, path)
+		}
+		return nil
+	})
+	if err != nil {
+		return nil, err
+	}
+	return matches, nil
 }
